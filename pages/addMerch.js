@@ -74,7 +74,7 @@ const AddMerch = () => {
     e.preventDefault();
     try {
       const jwt_token = localStorage.getItem("admin");
-      const updateurl = `http://localhost:5000/admin/addMerch?admin_jwt=${jwt_token}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}&password=${password}`;
+      const updateurl = `http://apis.paybaba.co/admin/addMerch?admin_jwt=${jwt_token}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}&password=${password}`;
       var myheaders = new Headers();
       myheaders.append(
         "Access-Control-Allow-Origin",
