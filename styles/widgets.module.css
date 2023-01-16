@@ -1,0 +1,61 @@
+.widgets {
+  display: flex;
+  flex: 1;
+  padding: 10px;
+  justify-content: space-between;
+  box-shadow: 2px 4px 10px 4px rgba(217, 217, 217, 0.47);
+  -webkit-box-shadow: 2px 4px 10px 4px rgba(217, 217, 217, 0.47);
+  -moz-box-shadow: 2px 4px 10px 4px rgba(217, 217, 217, 0.47);
+  border-radius: 12px;
+  height: 100px;
+}
+.widgets .left,
+.widgets .right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.widgets .left .title,
+.widgets .right .title {
+  font-weight: bold;
+  font-size: 14px;
+  color: rgb(160, 160, 160);
+}
+.widgets .left .counter,
+.widgets .right .counter {
+  font-size: 28px;
+  font-weight: 300;
+}
+.widgets .left .link,
+.widgets .right .link {
+  font-size: 12px;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  border-bottom: 1px solid gray;
+}
+.widgets .left .link:hover,
+.widgets .right .link:hover {
+  cursor: pointer;
+}
+.widgets .left .percentage,
+.widgets .right .percentage {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+.widgets .left .percentage.positive,
+.widgets .right .percentage.positive {
+  color: green;
+}
+.widgets .left .percentage.negetive,
+.widgets .right .percentage.negetive {
+  color: red;
+}
+.widgets .left .icon,
+.widgets .right .icon {
+  font-size: 27px;
+  padding: 5px;
+  border-radius: 5px;
+  align-self: flex-end;
+}/*# sourceMappingURL=widgets.module.css.map */

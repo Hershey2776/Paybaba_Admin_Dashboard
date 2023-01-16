@@ -1,123 +1,414 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useTable, usePagination } from "react-table";
 
-const inter = Inter({ subsets: ['latin'] })
+import Chart from "chart.js/auto";
+import {
+  Flex,
+  Heading,
+  Avatar,
+  AvatarGroup,
+  Text,
+  Icon,
+  IconButton,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Divider,
+  Link,
+  Box,
+  Button,
+  Input,
+  InputGroup,
+  InputLeftElement,
+} from "@chakra-ui/react";
+import {
+  FiHome,
+  FiPieChart,
+  FiDollarSign,
+  FiBox,
+  FiCalendar,
+  FiChevronDown,
+  FiChevronUp,
+  FiPlus,
+  FiCreditCard,
+  FiSearch,
+  FiBell,
+} from "react-icons/fi";
+import { IoIosPeople, IoIosLogOut } from "react-icons/io";
+import MyChart from "../components/MyChart";
+import qr from "../assets/frame.png";
+import Image from "next/image";
+import Widgets from "./components/Widgets";
 
-export default function Home() {
+export default function Dashboard() {
+  const [display, changeDisplay] = useState("hide");
+  const [value, changeValue] = useState(1);
+  const [amount, setAmount] = useState("");
+  const [user, setUser] = useState([]);
+  const [admin, setAdmin] = useState("");
+  const [transaction, setTrans] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+
+  const allUsers = async () => {
+    setIsLoading(true);
+
+    const jwt_token = localStorage.getItem("admin");
+
+    var myheaders = new Headers();
+    myheaders.append(
+      "Access-Control-Allow-Origin",
+      "*",
+      "Access-Control-Allow-Origin",
+      "http://localhost:3000",
+      "Access-Control-Allow-Credentials",
+      "true"
+    );
+    myheaders.append("Content-Type", "application/json");
+    const url = `http://localhost:5000/admin/allUsers?admin_jwt=${jwt_token}`;
+    var requestOptions = {
+      method: "GET",
+      headers: myheaders,
+    };
+    const response = await fetch(url, requestOptions);
+    const data = await response.json();
+
+    setUser(data?.data);
+    setIsLoading(false);
+  };
+
+  const allTrans = async () => {
+    setIsLoading(true);
+
+    const jwt_token = localStorage.getItem("admin");
+
+    var myheaders = new Headers();
+    myheaders.append(
+      "Access-Control-Allow-Origin",
+      "*",
+      "Access-Control-Allow-Origin",
+      "http://localhost:3000",
+      "Access-Control-Allow-Credentials",
+      "true"
+    );
+    myheaders.append("Content-Type", "application/json");
+    const url = `http://localhost:5000/admin/allTrans?admin_jwt=${jwt_token}`;
+    var requestOptions = {
+      method: "GET",
+      headers: myheaders,
+    };
+    const response = await fetch(url, requestOptions);
+    const data = await response.json();
+
+    setTrans(data?.transaction);
+    setIsLoading(false);
+  };
+  console.log("tarns", transaction);
+
+  const getAmount = async () => {
+    setIsLoading(true);
+
+    const jwt_token = localStorage.getItem("admin");
+
+    var myheaders = new Headers();
+    myheaders.append(
+      "Access-Control-Allow-Origin",
+      "*",
+      "Access-Control-Allow-Origin",
+      "http://localhost:3000",
+      "Access-Control-Allow-Credentials",
+      "true"
+    );
+    myheaders.append("Content-Type", "application/json");
+    const url = `http://localhost:5000/admin/totalAmount?admin_jwt=${jwt_token}`;
+    var requestOptions = {
+      method: "GET",
+      headers: myheaders,
+    };
+    const response = await fetch(url, requestOptions);
+    const data = await response.json();
+
+    setAmount(data?.amount);
+    setIsLoading(false);
+  };
+
+  const getAdmin = async () => {
+    setIsLoading(true);
+
+    const jwt_token = localStorage.getItem("admin");
+    console.log(localStorage);
+
+    var myheaders = new Headers();
+    myheaders.append(
+      "Access-Control-Allow-Origin",
+      "*",
+      "Access-Control-Allow-Origin",
+      "http://localhost:3000",
+      "Access-Control-Allow-Credentials",
+      "true"
+    );
+    myheaders.append("Content-Type", "application/json");
+    const url = `http://localhost:5000/admin/getAdmin?admin_jwt=${jwt_token}`;
+    var requestOptions = {
+      method: "GET",
+      headers: myheaders,
+    };
+    const response = await fetch(url, requestOptions);
+    const data = await response.json();
+    setAdmin(data.email);
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    const jwt_token = localStorage.getItem("admin");
+    if (router.isReady) {
+      if (!jwt_token) {
+        window.location.href = "/login";
+      } else {
+        allUsers();
+        getAdmin();
+        allTrans();
+        getAmount();
+      }
+    }
+  }, [router.isReady]);
+
   return (
     <>
-      <Head>
-        <title>Create Next App</title>
-        <meta name="description" content="Generated by create next app" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
+      {isLoading ? (
+        <>
+          <div className="bodykk">
+            <div className="testloader">
+              <span></span>
+              <span></span>
+            </div>
           </div>
-        </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
+        </>
+      ) : (
+        <Flex h="100vh" flexDir="row" overflow="hidden" maxW="2000px">
+          <Flex
+            w="15%"
+            flexDir="column"
+            alignItems="center"
+            backgroundColor="#020202"
+            color="#fff"
           >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
+            <Flex flexDir="column" justifyContent="space-between">
+              <Flex flexDir="column" as="nav">
+                <Heading
+                  mt={50}
+                  mb={100}
+                  fontSize={20}
+                  alignSelf="center"
+                  letterSpacing="tight"
+                >
+                  PayBaba
+                </Heading>
+                <Flex
+                  flexDir="column"
+                  align="flex-start"
+                  justifyContent="center"
+                >
+                  <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
+                    <Link display={["none", "none", "flex", "flex", "flex"]}>
+                      <Icon
+                        as={FiHome}
+                        fontSize="2xl"
+                        className="active-icon"
+                      />
+                    </Link>
+                    <Link
+                      _hover={{ textDecor: "none" }}
+                      display={["flex", "flex", "none", "flex", "flex"]}
+                      href="/"
+                    >
+                      <Text className="active">Home</Text>
+                    </Link>
+                  </Flex>
+                  {/* <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
+                  <Link display={["none", "none", "flex", "flex", "flex"]}>
+                    <Icon as={FiPieChart} fontSize="2xl" />
+                  </Link>
+                  <Link
+                    _hover={{ textDecor: "none" }}
+                    display={["flex", "flex", "none", "flex", "flex"]}
+                  >
+                    <Text className="active">Charts</Text>
+                  </Link>
+                </Flex> */}
+                  <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
+                    <Link display={["none", "none", "flex", "flex", "flex"]}>
+                      <Icon as={FiDollarSign} fontSize="2xl" />
+                    </Link>
+                    <Link
+                      _hover={{ textDecor: "none" }}
+                      display={["flex", "flex", "none", "flex", "flex"]}
+                      href="/allTrans"
+                    >
+                      <Text className="active">All Transactions</Text>
+                    </Link>
+                  </Flex>
+                  <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
+                    <Link display={["none", "none", "flex", "flex", "flex"]}>
+                      <Icon as={IoIosPeople} fontSize="2xl" />
+                    </Link>
+                    <Link
+                      _hover={{ textDecor: "none" }}
+                      display={["flex", "flex", "none", "flex", "flex"]}
+                      href="/merchant"
+                    >
+                      <Text className="active">Merchant</Text>
+                    </Link>
+                  </Flex>
+                  <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
+                    <Link display={["none", "none", "flex", "flex", "flex"]}>
+                      <Icon as={IoIosLogOut} fontSize="2xl" />
+                    </Link>
 
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
+                    <Link
+                      _hover={{ textDecor: "none" }}
+                      display={["flex", "flex", "none", "flex", "flex"]}
+                      href="/logout"
+                    >
+                      <Text className="active">Logout</Text>
+                    </Link>
+                  </Flex>
+                </Flex>
+              </Flex>
+              <Flex flexDir="column" alignItems="center" mb={10} mt={5}>
+                <Avatar my={2} src="avatar-1.jpg" />
+                <Text textAlign="center">{admin}</Text>
+              </Flex>
+            </Flex>
+          </Flex>
+          <Flex
+            w={["100%", "100%", "60%", "60%", "55%"]}
+            p="3%"
+            flexDir="column"
+            overflow="auto"
+            minH="100vh"
           >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
+            <Heading fontWeight="normal" mb={4} letterSpacing="tight">
+              Welcome back,{" "}
+              <Flex display="inline-flex" fontWeight="bold">
+                {admin}
+              </Flex>
+            </Heading>
+            <Text color="gray" fontSize="sm">
+              Balance
+            </Text>
+            <Text fontWeight="bold" fontSize="2xl">
+              ${amount}
+            </Text>
+            <MyChart />
+            <Flex justifyContent="space-between" mt={8}>
+              <Flex align="flex-end">
+                <Heading as="h2" size="lg" letterSpacing="tight">
+                  Transactions
+                </Heading>
+                <Text fontSize="small" color="gray" ml={4}>
+                  Jan 2023
+                </Text>
+              </Flex>
+              <IconButton icon={<FiCalendar />} />
+            </Flex>
+            <Flex flexDir="column">
+              <Flex overflow="auto">
+                <Table variant="unstyled" mt={4}>
+                  <Thead>
+                    <Tr color="gray">
+                      <Th>Transaction ID</Th>
+                      <Th>Name</Th>
+                      <Th isNumeric>Amount</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {transaction.slice(0, 5).map((val, key) => (
+                      <Tr val={val._id}>
+                        <Td>
+                          <Flex align="center">
+                            <Avatar size="sm" mr={2} src="amazon.jpeg" />
+                            <Flex flexDir="column">
+                              <Heading size="sm" letterSpacing="tight">
+                                {val.utr}
+                              </Heading>
+                              <Text fontSize="sm" color="gray">
+                                {val.transactionDate}
+                              </Text>
+                            </Flex>
+                          </Flex>
+                        </Td>
+                        <Td>{val.emailId}</Td>
 
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
+                        <Td isNumeric>
+                          <Text fontWeight="bold" display="inline-table">
+                            ${val.amount}
+                          </Text>
+                        </Td>
+                      </Tr>
+                    ))}
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
+                    {display == "show" &&
+                      transaction.slice(5).map((val, key) => (
+                        <Tr val={val._id}>
+                          <Td>
+                            <Flex align="center">
+                              <Avatar size="sm" mr={2} src="amazon.jpeg" />
+                              <Flex flexDir="column">
+                                <Heading size="sm" letterSpacing="tight">
+                                  {val.utr}
+                                </Heading>
+                                <Text fontSize="sm" color="gray">
+                                  {val.transactionDate}
+                                </Text>
+                              </Flex>
+                            </Flex>
+                          </Td>
+                          <Td>{val.emailId}</Td>
+
+                          <Td isNumeric>
+                            <Text fontWeight="bold" display="inline-table">
+                              ${val.amount}
+                            </Text>
+                          </Td>
+                        </Tr>
+                      ))}
+                  </Tbody>
+                </Table>
+              </Flex>
+              <Flex align="center">
+                <Divider />
+                <IconButton
+                  icon={display == "show" ? <FiChevronUp /> : <FiChevronDown />}
+                  onClick={() => {
+                    if (display == "show") {
+                      changeDisplay("none");
+                    } else {
+                      changeDisplay("show");
+                    }
+                  }}
+                />
+                <Divider />
+              </Flex>
+            </Flex>
+          </Flex>
+          <Flex
+            w={["100%", "100%", "30%"]}
+            bgColor="#F5F5F5"
+            p="3%"
+            flexDir="column"
+            overflow="auto"
+            minW={[null, null, "300px", "300px", "400px"]}
           >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+            <Widgets type="user"></Widgets>
+            <Widgets type="earning"></Widgets>
+            <Widgets type="order"></Widgets>
+          </Flex>
+        </Flex>
+      )}
     </>
-  )
+  );
 }

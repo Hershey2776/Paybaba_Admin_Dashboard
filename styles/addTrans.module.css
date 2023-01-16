@@ -1,0 +1,75 @@
+.new {
+  width: 100%;
+  display: flex;
+  flex: auto;
+  overflow-x: hidden;
+}
+.new .nav {
+  flex: none;
+  min-width: 100%;
+}
+.new .newContainer {
+  position: relative;
+  margin-left: -1150px;
+  flex: none;
+}
+.new .newContainer .top,
+.new .newContainer .bottom {
+  display: flex;
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  padding: 10px;
+  margin: 20px;
+}
+.new .newContainer .top h1,
+.new .newContainer .bottom h1 {
+  color: rgb(195, 194, 194);
+  font-size: 20px;
+}
+.new .newContainer .top .left,
+.new .newContainer .bottom .left {
+  text-align: center;
+}
+.new .newContainer .top .right,
+.new .newContainer .bottom .right {
+  min-height: -webkit-min-content;
+  min-height: -moz-min-content;
+  min-height: min-content;
+  max-width: 50%;
+}
+.new .newContainer .top .right .form,
+.new .newContainer .bottom .right .form {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 1em;
+  flex-direction: row;
+  align-content: flex-start;
+  gap: 20px;
+}
+.new .newContainer .top .right .form .input,
+.new .newContainer .bottom .right .form .input {
+  min-width: 30%;
+}
+.new .newContainer .top .right .form .input input,
+.new .newContainer .bottom .right .form .input input {
+  width: 50%;
+  padding: 5px;
+  border: none;
+  border-bottom: 1px solid gray;
+}
+.new .newContainer .top .right .form label,
+.new .newContainer .bottom .right .form label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.new .newContainer .top .right .form button,
+.new .newContainer .bottom .right .form button {
+  width: 150px;
+  padding: 10px;
+  border: none;
+  background-color: rgb(2, 102, 102);
+  color: aliceblue;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}/*# sourceMappingURL=addTrans.module.css.map */
