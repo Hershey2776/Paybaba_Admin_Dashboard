@@ -77,7 +77,7 @@ const ViewMerchants = () => {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://apis.paybaba.co/admin/getParticularMerchant?admin_jwt=${jwt_token}&merchantid=${merchantId}`;
+    const url = `http://api.paybaba.co/admin/getParticularMerchant?admin_jwt=${jwt_token}&merchantid=${merchantId}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -107,7 +107,7 @@ const ViewMerchants = () => {
   const updateMerch = async (e) => {
     e.preventDefault();
     const jwt_token = localStorage.getItem("admin");
-    const updateurl = `http://apis.paybaba.co/admin/updateMerch?admin_jwt=${jwt_token}&merchantid=${merchantId}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}`;
+    const updateurl = `http://api.paybaba.co/admin/updateMerch?admin_jwt=${jwt_token}&merchantid=${merchantId}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}`;
     var myheaders = new Headers();
     myheaders.append(
       "Access-Control-Allow-Origin",

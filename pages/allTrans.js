@@ -96,7 +96,7 @@ export default function ChakraTable() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://apis.paybaba.co/admin/allTrans?admin_jwt=${jwt_token}`;
+    const url = `http://api.paybaba.co/admin/allTrans?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -120,7 +120,7 @@ export default function ChakraTable() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://apis.paybaba.co/admin/getAdmin?admin_jwt=${jwt_token}`;
+    const url = `http://api.paybaba.co/admin/getAdmin?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -156,7 +156,7 @@ export default function ChakraTable() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://apis.paybaba.co/admin/getbystatus?admin_jwt=${jwt_token}&status=${status}`;
+    const url = `http://api.paybaba.co/admin/getbystatus?admin_jwt=${jwt_token}&status=${status}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
