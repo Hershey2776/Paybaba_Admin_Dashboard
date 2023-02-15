@@ -78,6 +78,8 @@ export default function ChakraTable() {
   //   []
   // );
   const [merchants, setMerchant] = useState("");
+  const [merchant, setMerchants] = useState([]);
+  const [merchantId, setMerchantId] = useState([]);
   const [status, setStatus] = useState();
   const [transaction, setTransaction] = useState([]);
   const [page, setPage] = React.useState(1);
@@ -96,7 +98,7 @@ export default function ChakraTable() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/allTrans?admin_jwt=${jwt_token}`;
+    const url = `http://localhost:5000/admin/allTrans?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -105,6 +107,30 @@ export default function ChakraTable() {
     const data = await response.json();
 
     setTransaction(data.transaction);
+  };
+
+  const getmerch = async () => {
+    const jwt_token = localStorage.getItem("admin");
+
+    var myheaders = new Headers();
+    myheaders.append(
+      "Access-Control-Allow-Origin",
+      "*",
+      "Access-Control-Allow-Origin",
+      "http://localhost:3000",
+      "Access-Control-Allow-Credentials",
+      "true"
+    );
+    myheaders.append("Content-Type", "application/json");
+    const url = `http://localhost:5000/admin/getAllMerchants?admin_jwt=${jwt_token}`;
+    var requestOptions = {
+      method: "GET",
+      headers: myheaders,
+    };
+    const response = await fetch(url, requestOptions);
+    const data = await response.json();
+    console.log(data);
+    setMerchants(data?.data);
   };
 
   const getAdmin = async () => {
@@ -120,7 +146,7 @@ export default function ChakraTable() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/getAdmin?admin_jwt=${jwt_token}`;
+    const url = `http://localhost:5000/admin/getAdmin?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -138,6 +164,7 @@ export default function ChakraTable() {
       window.location.href = "/login";
     } else {
       allTrans();
+      getmerch();
       getAdmin();
     }
   }, []);
@@ -156,7 +183,7 @@ export default function ChakraTable() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/getbystatus?admin_jwt=${jwt_token}&status=${status}`;
+    const url = `http://localhost:5000/admin/getbystatus?admin_jwt=${jwt_token}&status=${status}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -165,8 +192,36 @@ export default function ChakraTable() {
     const data = await response.json();
     setTransaction(data?.data);
   };
+  const getMerchTrans = async (e, id) => {
+    e.preventDefault();
+    const jwt_token = localStorage.getItem("admin");
+
+    var myheaders = new Headers();
+    myheaders.append(
+      "Access-Control-Allow-Origin",
+      "*",
+      "Access-Control-Allow-Origin",
+      "http://localhost:3000",
+      "Access-Control-Allow-Credentials",
+      "true"
+    );
+    myheaders.append("Content-Type", "application/json");
+    const url = `http://localhost:5000/admin/getMerchantTrans?admin_jwt=${jwt_token}&merchantid=${id}`;
+    var requestOptions = {
+      method: "GET",
+      headers: myheaders,
+    };
+    const response = await fetch(url, requestOptions);
+    const data = await response.json();
+    console.log(data);
+    setTransaction(data?.data);
+  };
 
   const columns = [
+    {
+      Header: "View",
+      accessor: "action",
+    },
     {
       Header: "Transaction Id",
       accessor: "_id",
@@ -208,10 +263,6 @@ export default function ChakraTable() {
       Header: "Screen Shot",
       accessor: "screenShot",
     },
-    {
-      Header: "View",
-      accessor: "action",
-    },
   ];
 
   const tableData = transaction.map((val) => ({
@@ -232,7 +283,12 @@ export default function ChakraTable() {
     utr: val.utr,
     screenShot: val.screenShot,
     action: (
-      <a colorScheme="gray" href={`/viewTrans/${val._id}`} size="sm">
+      <a
+        colorScheme="gray"
+        target="_blank"
+        href={`/viewTrans/${val._id}`}
+        size="sm"
+      >
         <Icon as={MdPageview} fontSize="20" />
       </a>
     ),
@@ -274,17 +330,7 @@ export default function ChakraTable() {
                   <Text className="active">Home</Text>
                 </Link>
               </Flex>
-              {/* <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
-                  <Link display={["none", "none", "flex", "flex", "flex"]}>
-                    <Icon as={FiPieChart} fontSize="2xl" />
-                  </Link>
-                  <Link
-                    _hover={{ textDecor: "none" }}
-                    display={["flex", "flex", "none", "flex", "flex"]}
-                  >
-                    <Text className="active">Charts</Text>
-                  </Link>
-                </Flex> */}
+
               <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
                 <Link display={["none", "none", "flex", "flex", "flex"]}>
                   <Icon
@@ -379,6 +425,37 @@ export default function ChakraTable() {
               <MenuItem onClick={(e) => getStatusData(e, "pending")}>
                 Pending
               </MenuItem>
+            </MenuList>
+          </Menu>
+          <Menu>
+            <MenuButton
+              style={{ marginLeft: "10px" }}
+              px={12}
+              py={2}
+              transition="all 0.2s"
+              borderRadius="md"
+              borderWidth="1px"
+              _hover={{ bg: "#F32C48", color: "#efefef" }}
+              _expanded={{ bg: "blue.400" }}
+              _focus={{ boxShadow: "outline" }}
+            >
+              <span
+                style={{
+                  display: "flex",
+                  gap: "2px",
+                  alignItems: "center",
+                  marginLeft: "0px",
+                }}
+              >
+                Merchant <MdChevronRight />
+              </span>
+            </MenuButton>
+            <MenuList>
+              {merchant.map((v) => (
+                <MenuItem key={v._id} onClick={(e) => getMerchTrans(e, v._id)}>
+                  {v.username}
+                </MenuItem>
+              ))}
             </MenuList>
           </Menu>
         </span>

@@ -77,7 +77,7 @@ const ViewMerchants = () => {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/getParticularMerchant?admin_jwt=${jwt_token}&merchantid=${merchantId}`;
+    const url = `http://localhost:5000/admin/getParticularMerchant?admin_jwt=${jwt_token}&merchantid=${merchantId}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -107,7 +107,7 @@ const ViewMerchants = () => {
   const updateMerch = async (e) => {
     e.preventDefault();
     const jwt_token = localStorage.getItem("admin");
-    const updateurl = `http://api.paybaba.co/admin/updateMerch?admin_jwt=${jwt_token}&merchantid=${merchantId}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}`;
+    const updateurl = `http://localhost:5000/admin/updateMerch?admin_jwt=${jwt_token}&merchantid=${merchantId}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}`;
     var myheaders = new Headers();
     myheaders.append(
       "Access-Control-Allow-Origin",
@@ -148,7 +148,7 @@ const ViewMerchants = () => {
             color="#fff"
           >
             <Flex flexDir="column" justifyContent="space-between">
-              <Flex flexDir="column" as="nav">
+              <Flex flexDir="column" as="nav" className="nav_con">
                 <Heading
                   mt={50}
                   mb={100}

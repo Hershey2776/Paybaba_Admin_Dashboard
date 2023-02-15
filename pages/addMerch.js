@@ -58,6 +58,9 @@ import {
   FiBell,
 } from "react-icons/fi";
 import { IoIosPeople, IoIosLogOut, IoIosPersonAdd } from "react-icons/io";
+import { useLayoutEffect } from "react";
+// import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const AddMerch = () => {
   const [merchants, setMerchant] = useState([]);
@@ -67,33 +70,54 @@ const AddMerch = () => {
   const [status, setStatus] = useState("");
   const [qr, setQr] = useState("");
   const [password, setPassword] = useState("");
-
+  const [file, setFile] = useState();
+  const [caption, setCaption] = useState("");
   const router = useRouter();
 
-  const addMerch = async (e) => {
-    e.preventDefault();
-    try {
-      const jwt_token = localStorage.getItem("admin");
-      const updateurl = `http://api.paybaba.co/admin/addMerch?admin_jwt=${jwt_token}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}&password=${password}`;
-      var myheaders = new Headers();
-      myheaders.append(
-        "Access-Control-Allow-Origin",
-        "*",
-        "Access-Control-Allow-Origin",
-        "http://localhost:3000",
-        "Access-Control-Allow-Credentials",
-        "true"
-      );
+  // const addMerch = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const jwt_token = localStorage.getItem("admin");
+  //     const updateurl = `http://localhost:5000/admin/addMerch?admin_jwt=${jwt_token}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}&password=${password}`;
+  //     var myheaders = new Headers();
+  //     myheaders.append(
+  //       "Access-Control-Allow-Origin",
+  //       "*",
+  //       "Access-Control-Allow-Origin",
+  //       "http://localhost:3000",
+  //       "Access-Control-Allow-Credentials",
+  //       "true"
+  //     );
 
-      var requestOptions = {
-        method: "POST",
-        headers: myheaders,
-      };
-      const response = await fetch(updateurl, requestOptions);
+  //     var requestOptions = {
+  //       method: "POST",
+  //       headers: myheaders,
+  //     };
+  //     const response = await fetch(updateurl, requestOptions);
+  //   } catch (e) {
+  //     toast.error(e, {
+  //       position: "top-center",
+  //     });
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const jwt_token = localStorage.getItem("admin");
+
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("caption", caption);
+      await axios.post(
+        `http://localhost:5000/admin/addMerch?admin_jwt=${jwt_token}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}&password=${password}`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
     } catch (e) {
-      toast.error(e, {
-        position: "top-center",
-      });
+      console.log(e);
     }
   };
   const getStatusData = async (e) => {
@@ -115,7 +139,7 @@ const AddMerch = () => {
           h="100vh"
           flexDir="row"
           overflow="hidden"
-          maxW="2000px"
+          // maxW="2000px"
         >
           <Flex
             w="15%"
@@ -162,7 +186,7 @@ const AddMerch = () => {
                       display={["flex", "flex", "none", "flex", "flex"]}
                       href="/allTrans"
                     >
-                      <Text className="active">All Transactions</Text>
+                      <Text className="active">All Merchants</Text>
                     </Link>
                   </Flex>
                   <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
@@ -222,7 +246,13 @@ const AddMerch = () => {
 
           <div className={styles.bottom}>
             <div className={styles.right}>
-              <form className={styles.form}>
+              <form
+                action="/images"
+                method="POST"
+                encType="multipart/form-data"
+                onSubmit={handleSubmit}
+                className={styles.form}
+              >
                 <div className={styles.input}>
                   <label>User Name</label>
                   <input
@@ -263,12 +293,11 @@ const AddMerch = () => {
                   </Select>
                 </div>
                 <div className={styles.input}>
-                  <label>QR</label>
                   <input
-                    onChange={(e) => setQr(e.target.value)}
-                    type="text"
-                    placeholder="URL"
-                  />
+                    onChange={(e) => setFile(e.target.files[0])}
+                    type="file"
+                    accept="image/*"
+                  ></input>
                 </div>
                 <div className={styles.input}>
                   <label>Password</label>
@@ -280,7 +309,7 @@ const AddMerch = () => {
                   />
                 </div>
 
-                <button onClick={(e) => addMerch(e)}>Send</button>
+                <button type="submit">Send</button>
               </form>
             </div>
           </div>

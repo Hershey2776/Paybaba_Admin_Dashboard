@@ -64,7 +64,7 @@ export default function ChakraTable() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/allTrans?admin_jwt=${jwt_token}`;
+    const url = `http://localhost:5000/admin/allTrans?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -88,7 +88,7 @@ export default function ChakraTable() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/getAllMerchants?admin_jwt=${jwt_token}`;
+    const url = `http://localhost:5000/admin/getAllMerchants?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -268,7 +268,7 @@ export default function ChakraTable() {
         </Flex>
       </Flex>
       <Flex w="80%" p="3%" flexDir="column" overflow="auto" minH="100vh">
-        <Heading>All Transactions</Heading>
+        <Heading>All Merchant</Heading>
         <Table
           colorScheme="blue"
           // Fallback component when list is empty

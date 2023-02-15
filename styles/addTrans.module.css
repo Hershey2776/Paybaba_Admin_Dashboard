@@ -31,7 +31,6 @@
 }
 .new .newContainer .top .right,
 .new .newContainer .bottom .right {
-  min-height: -webkit-min-content;
   min-height: -moz-min-content;
   min-height: min-content;
   max-width: 50%;
@@ -62,8 +61,8 @@
   align-items: center;
   gap: 10px;
 }
-.new .newContainer .top .right .form button,
-.new .newContainer .bottom .right .form button {
+.new .newContainer .top .right .form .send,
+.new .newContainer .bottom .right .form .send {
   width: 150px;
   padding: 10px;
   border: none;
@@ -72,4 +71,17 @@
   font-weight: bold;
   cursor: pointer;
   margin-top: 10px;
+}
+
+@media screen and (min-width: 800px) and (max-width: 1399px) {
+  .newContainer {
+    position: relative;
+    margin-left: -1150px !important;
+  }
+}
+@media only screen and (max-width: 2500px) and (min-width: 1490px) {
+  .newContainer {
+    position: relative;
+    margin-left: -1550px !important;
+  }
 }/*# sourceMappingURL=addTrans.module.css.map */

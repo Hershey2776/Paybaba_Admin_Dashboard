@@ -69,7 +69,7 @@ export default function Dashboard() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/allUsers?admin_jwt=${jwt_token}`;
+    const url = `http://localhost:5000/admin/allUsers?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -96,7 +96,7 @@ export default function Dashboard() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/allTrans?admin_jwt=${jwt_token}`;
+    const url = `http://localhost:5000/admin/allTrans?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -124,7 +124,7 @@ export default function Dashboard() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/totalAmount?admin_jwt=${jwt_token}`;
+    const url = `http://localhost:5000/admin/totalAmount?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -152,7 +152,7 @@ export default function Dashboard() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/getAdmin?admin_jwt=${jwt_token}`;
+    const url = `http://localhost:5000/admin/getAdmin?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -228,17 +228,7 @@ export default function Dashboard() {
                       <Text className="active">Home</Text>
                     </Link>
                   </Flex>
-                  {/* <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
-                  <Link display={["none", "none", "flex", "flex", "flex"]}>
-                    <Icon as={FiPieChart} fontSize="2xl" />
-                  </Link>
-                  <Link
-                    _hover={{ textDecor: "none" }}
-                    display={["flex", "flex", "none", "flex", "flex"]}
-                  >
-                    <Text className="active">Charts</Text>
-                  </Link>
-                </Flex> */}
+
                   <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
                     <Link display={["none", "none", "flex", "flex", "flex"]}>
                       <Icon as={FiDollarSign} fontSize="2xl" />
@@ -298,10 +288,10 @@ export default function Dashboard() {
               </Flex>
             </Heading>
             <Text color="gray" fontSize="sm">
-              Balance
+              Total Transactions
             </Text>
             <Text fontWeight="bold" fontSize="2xl">
-              ${amount}
+              &#8377;{amount}
             </Text>
             <MyChart />
             <Flex justifyContent="space-between" mt={8}>
@@ -345,7 +335,7 @@ export default function Dashboard() {
 
                         <Td isNumeric>
                           <Text fontWeight="bold" display="inline-table">
-                            ${val.amount}
+                            &#8377;{val.amount}
                           </Text>
                         </Td>
                       </Tr>
@@ -371,7 +361,7 @@ export default function Dashboard() {
 
                           <Td isNumeric>
                             <Text fontWeight="bold" display="inline-table">
-                              ${val.amount}
+                              &#8377;{val.amount}
                             </Text>
                           </Td>
                         </Tr>

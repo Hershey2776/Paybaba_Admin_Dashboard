@@ -3,6 +3,20 @@ const { useState, useEffect } = React;
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { Input } from "@chakra-ui/react";
+import { MdChevronLeft, MdChevronRight, MdMenu } from "react-icons/md";
+import MenuItem from "@mui/material/MenuItem";
+import { Radio, RadioGroup } from "@chakra-ui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+  Stack,
+} from "@chakra-ui/react";
+import { Switch } from "@chakra-ui/react";
 import {
   Flex,
   Heading,
@@ -28,7 +42,6 @@ import {
   FormErrorMessage,
   FormHelperText,
   InputLabel,
-  MenuItem,
   FormControl,
   Select,
   SelectChangeEvent,
@@ -42,6 +55,7 @@ import {
   FiPieChart,
   FiDollarSign,
   FiBox,
+  FiEye,
   FiCalendar,
   FiChevronDown,
   FiChevronUp,
@@ -50,6 +64,7 @@ import {
   FiSearch,
   FiBell,
 } from "react-icons/fi";
+import { IoIosPeople, IoIosLogOut } from "react-icons/io";
 
 const ViewTrans = () => {
   const router = useRouter();
@@ -66,7 +81,12 @@ const ViewTrans = () => {
   const [ss, setSs] = useState("");
   const [mobile, setMobile] = useState("");
   const [merchantId, setMerchantId] = useState("");
+  let statusVal = "";
 
+  const handleChange = (event) => {
+    event.preventDefault();
+    setStatus(event.target.value);
+  };
   const getmerch = async () => {
     const jwt_token = localStorage.getItem("admin");
 
@@ -80,14 +100,14 @@ const ViewTrans = () => {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/getParticularTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}`;
+    const url = `http://localhost:5000/admin/getParticularTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
     };
     const response = await fetch(url, requestOptions);
     const data = await response.json();
-    console.log(data.data[0]?.emailId);
+    console.log(data);
     setTransaction(data?.data);
     setUtr(data.data[0]?.utr);
     setStatus(data.data[0]?.status);
@@ -97,9 +117,10 @@ const ViewTrans = () => {
     setId(data.data[0]?._id);
     setAmount(data.data[0]?.amount);
     setTransDate(data.data[0]?.transactionDate);
-    setSs(data.data[0]?.screenshot);
+    setSs(data.screenshot);
     setMobile(data.data[0]?.mobileno);
     setMerchantId(data.data[0]?.merchantId);
+    console.log(data);
   };
   useEffect(() => {
     const jwt_token = localStorage.getItem("admin");
@@ -115,7 +136,7 @@ const ViewTrans = () => {
   const updateTarns = async (e) => {
     e.preventDefault();
     const jwt_token = localStorage.getItem("admin");
-    const updateurl = `http://api.paybaba.co/admin/updateTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}&emailId=${email}&status=${status}&transactionDate=${transDate}&merchantId=${merchantId}&utr=${utr}&amount=${amount}&updatedBy=${updateBy}&mobileno=${mobile}&bankConfirmationNumber=${bankNummer}&_id=${id}&screenShot=${ss}`;
+    const updateurl = `http://localhost:5000/admin/updateTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}&emailId=${email}&status=${status}&transactionDate=${transDate}&merchantId=${merchantId}&utr=${utr}&amount=${amount}&updatedBy=${updateBy}&mobileno=${mobile}&bankConfirmationNumber=${bankNummer}&_id=${id}&screenShot=${ss}`;
     var myheaders = new Headers();
     myheaders.append(
       "Access-Control-Allow-Origin",
@@ -131,6 +152,11 @@ const ViewTrans = () => {
       headers: myheaders,
     };
     const response = await fetch(updateurl, requestOptions);
+  };
+
+  const setStatusFunc = (e, statusval) => {
+    e.preventDefault();
+    setStatus(statusVal);
   };
 
   return (
@@ -156,7 +182,7 @@ const ViewTrans = () => {
             color="#fff"
           >
             <Flex flexDir="column" justifyContent="space-between">
-              <Flex flexDir="column" as="nav">
+              <Flex flexDir="column" as="nav" className="nav_con">
                 <Heading
                   mt={50}
                   mb={100}
@@ -173,11 +199,7 @@ const ViewTrans = () => {
                 >
                   <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
                     <Link display={["none", "none", "flex", "flex", "flex"]}>
-                      <Icon
-                        as={FiHome}
-                        fontSize="2xl"
-                        className="active-icon"
-                      />
+                      <Icon as={FiHome} fontSize="2xl" />
                     </Link>
                     <Link
                       _hover={{ textDecor: "none" }}
@@ -187,20 +209,14 @@ const ViewTrans = () => {
                       <Text className="active">Home</Text>
                     </Link>
                   </Flex>
-                  {/* <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
-                  <Link display={["none", "none", "flex", "flex", "flex"]}>
-                    <Icon as={FiPieChart} fontSize="2xl" />
-                  </Link>
-                  <Link
-                    _hover={{ textDecor: "none" }}
-                    display={["flex", "flex", "none", "flex", "flex"]}
-                  >
-                    <Text className="active">Charts</Text>
-                  </Link>
-                </Flex> */}
+
                   <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
                     <Link display={["none", "none", "flex", "flex", "flex"]}>
-                      <Icon as={FiDollarSign} fontSize="2xl" />
+                      <Icon
+                        as={FiDollarSign}
+                        fontSize="2xl"
+                        className="active-icon"
+                      />
                     </Link>
                     <Link
                       _hover={{ textDecor: "none" }}
@@ -212,31 +228,19 @@ const ViewTrans = () => {
                   </Flex>
                   <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
                     <Link display={["none", "none", "flex", "flex", "flex"]}>
-                      <Icon as={FiDollarSign} fontSize="2xl" />
+                      <Icon as={IoIosPeople} fontSize="2xl" />
                     </Link>
                     <Link
                       _hover={{ textDecor: "none" }}
                       display={["flex", "flex", "none", "flex", "flex"]}
-                      href="/logout"
+                      href="/merchant"
                     >
                       <Text className="active">Merchant</Text>
                     </Link>
                   </Flex>
                   <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
                     <Link display={["none", "none", "flex", "flex", "flex"]}>
-                      <Icon as={FiDollarSign} fontSize="2xl" />
-                    </Link>
-                    <Link
-                      _hover={{ textDecor: "none" }}
-                      display={["flex", "flex", "none", "flex", "flex"]}
-                      href="/addMerch"
-                    >
-                      <Text className="active">Add Merchant</Text>
-                    </Link>
-                  </Flex>
-                  <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
-                    <Link display={["none", "none", "flex", "flex", "flex"]}>
-                      <Icon as={FiDollarSign} fontSize="2xl" />
+                      <Icon as={IoIosLogOut} fontSize="2xl" />
                     </Link>
                     <Link
                       _hover={{ textDecor: "none" }}
@@ -263,7 +267,7 @@ const ViewTrans = () => {
 
           <div className={styles.bottom}>
             <div className={styles.right}>
-              <form className={styles.form}>
+              <form className={styles.form} onSubmit={updateTarns}>
                 <div className={styles.input}>
                   <label>Transaction Id</label>
                   <input
@@ -287,6 +291,7 @@ const ViewTrans = () => {
                     onChange={(e) => setAmount(e.target.value)}
                     type="text"
                     placeholder={transaction[0]?.amount}
+                    readOnly
                   />
                 </div>
                 <div className={styles.input}>
@@ -295,16 +300,56 @@ const ViewTrans = () => {
                     onChange={(e) => setUtr(e.target.value)}
                     type="text"
                     placeholder={transaction[0]?.utr}
+                    readOnly
                   />
                 </div>
-                <div className={styles.input}>
-                  <label>Status</label>
-                  <input
-                    onChange={(e) => setStatus(e.target.value)}
-                    type="text"
-                    placeholder={transaction[0]?.status}
-                  />
+                <div
+                  className={styles.input}
+                  style={{ width: "50px !important" }}
+                >
+                  <RadioGroup onChange={setStatus} value={status}>
+                    <Stack direction="row">
+                      <Radio value="completed">Completed</Radio>
+                      <Radio value="pending">Pending</Radio>
+                    </Stack>
+                  </RadioGroup>
                 </div>
+                {/* <Menu>
+                  <MenuButton
+                    // style={{ marginLeft: "10px" }}
+                    px={12}
+                    py={2}
+                    transition="all 0.2s"
+                    borderRadius="md"
+                    borderWidth="1px"
+                    // _hover={{ bg: "#F32C48", color: "#efefef" }}
+                    _expanded={{ bg: "blue.400" }}
+                    _focus={{ boxShadow: "outline" }}
+                  >
+                    <span
+                      style={{
+                        display: "flex",
+                        gap: "2px",
+                        alignItems: "center",
+                        marginLeft: "0px",
+                      }}
+                    >
+                      Status <MdChevronRight />
+                    </span>
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem
+                      onClick={(e, statusVal) => setStatusFunc(e, "completed")}
+                    >
+                      Completed
+                    </MenuItem>
+                    <MenuItem
+                      onClick={(e, statusVal) => setStatusFunc(e, "pending")}
+                    >
+                      Pending
+                    </MenuItem>
+                  </MenuList>
+                </Menu> */}
                 <div className={styles.input}>
                   <label>Transaction Date</label>
                   <Input
@@ -313,20 +358,14 @@ const ViewTrans = () => {
                     readOnly
                   />
                 </div>
-                <div className={styles.input}>
-                  <label>Bank Confirmation Number</label>
-                  <input
-                    onChange={(e) => setBankNumber(e.target.value)}
-                    type="text"
-                    placeholder={transaction[0]?.bankConfirmationNumber}
-                  />
-                </div>
+
                 <div className={styles.input}>
                   <label>Updated By</label>
-                  <input
+                  <Input
                     onChange={(e) => setUpdateBy(e.target.value)}
                     type="text"
                     placeholder={transaction[0]?.updatedBy}
+                    required
                   />
                 </div>
                 <div className={styles.input}>
@@ -335,11 +374,17 @@ const ViewTrans = () => {
                 </div>
                 <div className={styles.input}>
                   <label>ScreenShot</label>
-                  <Input type="text" placeholder={transaction[0]?.screenshot} />
+                  <a colorScheme="gray" target="_blank" href={ss} size="sm">
+                    <Icon as={FiEye} fontSize="20" />
+                  </a>
                 </div>
                 <div className={styles.input}>
                   <label>Merchant Id</label>
-                  <Input type="text" placeholder={transaction[0]?.merchantId} />
+                  <Input
+                    type="text"
+                    placeholder={transaction[0]?.merchantId}
+                    readOnly
+                  />
                 </div>
                 <div className={styles.input}>
                   {/* <FormControl sx={{ m: 1, minWidth: 280 }}>
@@ -362,7 +407,9 @@ const ViewTrans = () => {
                     <FormHelperText>Choose Category</FormHelperText>
                   </FormControl> */}
                 </div>
-                <button onClick={(e) => updateTarns(e)}>Send</button>
+                <button className={styles.send} type="submit">
+                  Send
+                </button>
               </form>
             </div>
           </div>

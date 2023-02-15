@@ -29,7 +29,7 @@ const Widgets = ({ type }) => {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/totalAmount?admin_jwt=${jwt_token}`;
+    const url = `http://localhost:5000/admin/totalAmount?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -53,7 +53,7 @@ const Widgets = ({ type }) => {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/merchCount?admin_jwt=${jwt_token}`;
+    const url = `http://localhost:5000/admin/merchCount?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -77,7 +77,7 @@ const Widgets = ({ type }) => {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://api.paybaba.co/admin/transCount?admin_jwt=${jwt_token}`;
+    const url = `http://localhost:5000/admin/transCount?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -173,7 +173,7 @@ const Widgets = ({ type }) => {
       <div className={styles.left}>
         <span className={styles.title}>{data.title}</span>
         <span className={styles.counter}>
-          {data.isMoney && "$"} {data?.val}
+          {data.isMoney && "INR"} {data?.val}
         </span>
         <a
           href={data.href}
