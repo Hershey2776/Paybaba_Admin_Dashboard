@@ -39,7 +39,7 @@ import {
   FiBell,
 } from "react-icons/fi";
 import { IoIosPeople, IoIosLogOut } from "react-icons/io";
-import MyChart from "../components/MyChart";
+import MyChart from "../compofnents/MyChart";
 import qr from "../assets/frame.png";
 import Image from "next/image";
 import Widgets from "./components/Widgets";
@@ -69,7 +69,7 @@ export default function Dashboard() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/allUsers?admin_jwt=${jwt_token}`;
+    const url = `http://paybaba.co/admin/allUsers?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -96,7 +96,7 @@ export default function Dashboard() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/allTrans?admin_jwt=${jwt_token}`;
+    const url = `http://paybaba.co/admin/allTrans?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -124,7 +124,7 @@ export default function Dashboard() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/totalAmount?admin_jwt=${jwt_token}`;
+    const url = `http://paybaba.co/admin/totalAmount?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -152,7 +152,7 @@ export default function Dashboard() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/getAdmin?admin_jwt=${jwt_token}`;
+    const url = `http://paybaba.co/admin/getAdmin?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
