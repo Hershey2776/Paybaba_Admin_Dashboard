@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    $('#button').click(function(){ 
+        if(!$('#iframe').length) {
+                $('#iframeHolder').html('<p align="center"><iframe id="iframe" width="400" scrolling="auto" align=center height="680" frameborder="1" src="http://payments.paybaba.co/pay/63be5c3127b82198e78c1386/200/69/6000" style="border: 0px none #ffffff;" name="Paybaba" marginheight="0px" marginwidth="0px"> </iframe></p>');
+        }
+    });   
+});
+</script>
+ 
+</head>
+<body>
+
+
+
+
+<button id="button">Pay Now</button>
+<div id="iframeHolder"></div>
+</body>
+</html>

@@ -100,7 +100,7 @@ const ViewTrans = () => {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/getParticularTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}`;
+    const url = `http://api.paybaba.co/admin/getParticularTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -136,7 +136,7 @@ const ViewTrans = () => {
   const updateTarns = async (e) => {
     e.preventDefault();
     const jwt_token = localStorage.getItem("admin");
-    const updateurl = `http://localhost:5000/admin/updateTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}&emailId=${email}&status=${status}&transactionDate=${transDate}&merchantId=${merchantId}&utr=${utr}&amount=${amount}&updatedBy=${updateBy}&mobileno=${mobile}&bankConfirmationNumber=${bankNummer}&_id=${id}&screenShot=${ss}`;
+    const updateurl = `http://api.paybaba.co/admin/updateTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}&emailId=${email}&status=${status}&transactionDate=${transDate}&merchantId=${merchantId}&utr=${utr}&amount=${amount}&updatedBy=${updateBy}&mobileno=${mobile}&bankConfirmationNumber=${bankNummer}&_id=${id}&screenShot=${ss}`;
     var myheaders = new Headers();
     myheaders.append(
       "Access-Control-Allow-Origin",

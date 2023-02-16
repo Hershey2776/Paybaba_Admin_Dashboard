@@ -98,7 +98,7 @@ export default function ChakraTable() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/allTrans?admin_jwt=${jwt_token}`;
+    const url = `http://api.paybaba.co/admin/allTrans?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -122,7 +122,7 @@ export default function ChakraTable() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/getAllMerchants?admin_jwt=${jwt_token}`;
+    const url = `http://api.paybaba.co/admin/getAllMerchants?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -146,7 +146,7 @@ export default function ChakraTable() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/getAdmin?admin_jwt=${jwt_token}`;
+    const url = `http://api.paybaba.co/admin/getAdmin?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -183,7 +183,7 @@ export default function ChakraTable() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/getbystatus?admin_jwt=${jwt_token}&status=${status}`;
+    const url = `http://api.paybaba.co/admin/getbystatus?admin_jwt=${jwt_token}&status=${status}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -206,7 +206,7 @@ export default function ChakraTable() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/getMerchantTrans?admin_jwt=${jwt_token}&merchantid=${id}`;
+    const url = `http://api.paybaba.co/admin/getMerchantTrans?admin_jwt=${jwt_token}&merchantid=${id}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -229,6 +229,10 @@ export default function ChakraTable() {
     {
       Header: "Merchant Id",
       accessor: "merchantId",
+    },
+    {
+      Header: "Order Id",
+      accessor: "orderid",
     },
     {
       Header: "UTR",
@@ -282,6 +286,7 @@ export default function ChakraTable() {
     emailId: val.emailId,
     utr: val.utr,
     screenShot: val.screenShot,
+    orderid: val.orderid,
     action: (
       <a
         colorScheme="gray"
