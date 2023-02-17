@@ -78,13 +78,13 @@ const AddMerch = () => {
   //   e.preventDefault();
   //   try {
   //     const jwt_token = localStorage.getItem("admin");
-  //     const updateurl = `http://paybaba.co/admin/addMerch?admin_jwt=${jwt_token}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}&password=${password}`;
+  //     const updateurl = `https://paybaba.co/admin/addMerch?admin_jwt=${jwt_token}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}&password=${password}`;
   //     var myheaders = new Headers();
   //     myheaders.append(
   //       "Access-Control-Allow-Origin",
   //       "*",
   //       "Access-Control-Allow-Origin",
-  //       "http://localhost:3000",
+  //       "https://localhost:3000",
   //       "Access-Control-Allow-Credentials",
   //       "true"
   //     );
@@ -110,7 +110,7 @@ const AddMerch = () => {
       formData.append("image", file);
       formData.append("caption", caption);
       await axios.post(
-        `http://paybaba.co/admin/addMerch?admin_jwt=${jwt_token}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}&password=${password}`,
+        `https://paybaba.co/admin/addMerch?admin_jwt=${jwt_token}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}&password=${password}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
