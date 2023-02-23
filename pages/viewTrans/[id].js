@@ -104,7 +104,7 @@ const ViewTrans = () => {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `https://api.paybaba.co/admin/getParticularTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}`;
+    const url = `http://localhost:5000/admin/getParticularTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -140,9 +140,26 @@ const ViewTrans = () => {
   const updateTarns = async (e) => {
     e.preventDefault();
     const jwt_token = localStorage.getItem("admin");
-    const updateurl = `https://api.paybaba.co/admin/updateTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}&emailId=${email}&status=${status}&transactionDate=${transDate}&merchantId=${merchantId}&utr=${utr}&amount=${amount}&updatedBy=${updateBy}&mobileno=${mobile}&bankConfirmationNumber=${bankNummer}&_id=${id}&screenShot=${ss}&customerid=${customerid}&orderid=${orderid}`;
-    const sendUrl = `https://www.bikecar24.com/paybaba-status.aspx?customerid=${customerid}&orderid=${orderid}&transactionid=${transactionid}&status=Success&key=omnihundredcr`;
-    // https://www.bikecar24.com/paybaba-status.aspx?customerid=529483b9028618cb5fd20011dcd0808d&orderid=2023022212160584&transactionid=63f5117ca11b4c0e1fa0750a&status=Success&key=omnihundredcr
+    const updateurl = `http://localhost:5000/admin/updateTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}&emailId=${email}&status=${status}&transactionDate=${transDate}&merchantId=${merchantId}&utr=${utr}&amount=${amount}&updatedBy=${updateBy}&mobileno=${mobile}&bankConfirmationNumber=${bankNummer}&_id=${id}&screenShot=${ss}&customerid=${customerid}&orderid=${orderid}`;
+    // const sendUrl = `https://mazimatic.com/paybaba-status.aspx?customerid=${customerid}&orderid=${orderid}&transactionid=${transactionid}&status=Success&key=omnihundredcr`;
+    var myheaders = new Headers();
+    myheaders.append(
+      "Access-Control-Allow-Origin",
+      "*",
+      "Access-Control-Allow-Origin",
+      "http://localhost:3000",
+      "Access-Control-Allow-Credentials",
+      "true"
+    );
+    var requestOptions = {
+      method: "POST",
+    };
+    const re = await fetch(updateurl, requestOptions);
+  };
+
+  const setStatusFunc = async (e) => {
+    e.preventDefault();
+    const sendUrl = `https://mazimatic.com/paybaba-status.aspx?customerid=${customerid}&orderid=${orderid}&transactionid=${transactionid}&status=Success&key=omnihundredcr`;
     var myheaders = new Headers();
     myheaders.append(
       "Access-Control-Allow-Origin",
@@ -155,19 +172,12 @@ const ViewTrans = () => {
     var requestOptions = {
       method: "GET",
     };
-    axios.get(`${updateurl}`).then((res) => {});
-
     const re = await fetch(sendUrl, requestOptions);
-    // var requestOptions = {
-    //   method: "POST",
-    //   headers: myheaders,
-    // };
-    // const response = await fetch(updateurl, requestOptions);
   };
-
-  const setStatusFunc = (e, statusval) => {
+  const callBack = async (e) => {
     e.preventDefault();
-    setStatus(statusVal);
+    updateTarns(e);
+    setStatusFunc(e);
   };
 
   return (
@@ -278,7 +288,7 @@ const ViewTrans = () => {
 
           <div className={styles.bottom}>
             <div className={styles.right}>
-              <form className={styles.form} onSubmit={updateTarns}>
+              <form className={styles.form} onSubmit={callBack}>
                 <div className={styles.input}>
                   <label>Transaction Id</label>
                   <input
