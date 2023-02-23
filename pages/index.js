@@ -39,7 +39,7 @@ import {
   FiBell,
 } from "react-icons/fi";
 import { IoIosPeople, IoIosLogOut } from "react-icons/io";
-import MyChart from "../compofnents/MyChart";
+import MyChart from "../components/MyChart";
 import qr from "../assets/frame.png";
 import Image from "next/image";
 import Widgets from "./components/Widgets";

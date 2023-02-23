@@ -6,6 +6,7 @@ import { Input } from "@chakra-ui/react";
 import { MdChevronLeft, MdChevronRight, MdMenu } from "react-icons/md";
 import MenuItem from "@mui/material/MenuItem";
 import { Radio, RadioGroup } from "@chakra-ui/react";
+import axios from "axios";
 import {
   Menu,
   MenuButton,
@@ -81,6 +82,9 @@ const ViewTrans = () => {
   const [ss, setSs] = useState("");
   const [mobile, setMobile] = useState("");
   const [merchantId, setMerchantId] = useState("");
+  const [customerid, setCustomerid] = useState("");
+  const [orderid, setOrderid] = useState("");
+
   let statusVal = "";
 
   const handleChange = (event) => {
@@ -107,7 +111,6 @@ const ViewTrans = () => {
     };
     const response = await fetch(url, requestOptions);
     const data = await response.json();
-    console.log(data);
     setTransaction(data?.data);
     setUtr(data.data[0]?.utr);
     setStatus(data.data[0]?.status);
@@ -120,7 +123,8 @@ const ViewTrans = () => {
     setSs(data.screenshot);
     setMobile(data.data[0]?.mobileno);
     setMerchantId(data.data[0]?.merchantId);
-    console.log(data);
+    setCustomerid(data.data[0]?.customerid);
+    setOrderid(data.data[0]?.orderid);
   };
   useEffect(() => {
     const jwt_token = localStorage.getItem("admin");
@@ -136,7 +140,9 @@ const ViewTrans = () => {
   const updateTarns = async (e) => {
     e.preventDefault();
     const jwt_token = localStorage.getItem("admin");
-    const updateurl = `https://api.paybaba.co/admin/updateTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}&emailId=${email}&status=${status}&transactionDate=${transDate}&merchantId=${merchantId}&utr=${utr}&amount=${amount}&updatedBy=${updateBy}&mobileno=${mobile}&bankConfirmationNumber=${bankNummer}&_id=${id}&screenShot=${ss}`;
+    const updateurl = `https://api.paybaba.co/admin/updateTrans?admin_jwt=${jwt_token}&transactionid=${transactionid}&emailId=${email}&status=${status}&transactionDate=${transDate}&merchantId=${merchantId}&utr=${utr}&amount=${amount}&updatedBy=${updateBy}&mobileno=${mobile}&bankConfirmationNumber=${bankNummer}&_id=${id}&screenShot=${ss}&customerid=${customerid}&orderid=${orderid}`;
+    const sendUrl = `https://www.bikecar24.com/paybaba-status.aspx?customerid=${customerid}&orderid=${orderid}&transactionid=${transactionid}&status=Success&key=omnihundredcr`;
+    // https://www.bikecar24.com/paybaba-status.aspx?customerid=529483b9028618cb5fd20011dcd0808d&orderid=2023022212160584&transactionid=63f5117ca11b4c0e1fa0750a&status=Success&key=omnihundredcr
     var myheaders = new Headers();
     myheaders.append(
       "Access-Control-Allow-Origin",
@@ -146,12 +152,17 @@ const ViewTrans = () => {
       "Access-Control-Allow-Credentials",
       "true"
     );
-
     var requestOptions = {
-      method: "POST",
-      headers: myheaders,
+      method: "GET",
     };
-    const response = await fetch(updateurl, requestOptions);
+    axios.get(`${updateurl}`).then((res) => {});
+
+    const re = await fetch(sendUrl, requestOptions);
+    // var requestOptions = {
+    //   method: "POST",
+    //   headers: myheaders,
+    // };
+    // const response = await fetch(updateurl, requestOptions);
   };
 
   const setStatusFunc = (e, statusval) => {

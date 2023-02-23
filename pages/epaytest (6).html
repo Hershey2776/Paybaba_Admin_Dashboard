@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,12 +7,17 @@
 $(function(){
     $('#button').click(function(){ 
         if(!$('#iframe').length) {
-                $('#iframeHolder').html('<p align="center"><iframe id="iframe" width="400" scrolling="auto" align=center height="680" frameborder="1" src="http://payments.paybaba.co/pay/63be5c3127b82198e78c1386/200/69/6000" style="border: 0px none #ffffff;" name="Paybaba" marginheight="0px" marginwidth="0px"> </iframe></p>');
+                $('#iframeHolder').html('<p align="center"><iframe id="iframe" width="400" parent.closeIFrame() scrolling="auto" align=center height="680" frameborder="1" src="http://payments.paybaba.co/pay/63be5c3127b82198e78c1386/200/69/6000" style="border: 0px none #ffffff;" name="Paybaba" marginheight="0px" marginwidth="0px"> </iframe></p>');
         }
     });   
 });
 </script>
  
+<script>
+    function closeIFrame(){
+     $('#iframeHolder').remove();
+}
+</script>
 </head>
 <body>
 
@@ -23,3 +28,14 @@ $(function(){
 <div id="iframeHolder"></div>
 </body>
 </html>
+ -->
+ <!DOCTYPE html>
+ <html>
+ <body>
+ 
+
+ <a href='javascript:window.open("http://localhost:3000/pay/63be5c3127b82198e78c1386/6000/23/7000", "mywindow" , "popup, width:300");'>Pay</a>
+ <a href="javascript:window.close()">Click here to close</a>
+ </body>
+ </html>
+ 

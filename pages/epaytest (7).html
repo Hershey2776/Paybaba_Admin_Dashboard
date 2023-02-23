@@ -1,0 +1,33 @@
+<head>
+  <script src="https://epay.me/sdk/v2/stage-websdk.js"></script>
+  <script type="text/javascript">
+    function checkout() {
+        const options = {
+            channelId: "WEB",
+            customerId: "1",
+            merchantType: "ECOMMS",
+            merchantId: "63bd44a61e1266b0c3cabcd7",
+            orderID: "5921",
+            orderDescription: "Deposit 3 USD to 158697",
+            orderAmount: "3",
+            orderCurrency: "USD",
+            successHandler: async function(response) {
+                console.log(response)
+            },
+            failedHandler: async function(response) {
+                console.log(response)
+            },
+        }
+
+        const epay = new Epay();
+        epay.open(options);
+    }
+    window.onload = function(){
+        checkout();
+    };
+    </script>
+</head>
+
+<body>
+...
+</body>
