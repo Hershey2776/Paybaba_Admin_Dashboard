@@ -110,7 +110,7 @@ const AddMerch = () => {
       formData.append("image", file);
       formData.append("caption", caption);
       await axios.post(
-        `http://localhost:5000/admin/addMerch?admin_jwt=${jwt_token}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}&password=${password}`,
+        `https://api.paybaba.co/admin/addMerch?admin_jwt=${jwt_token}&username=${username}&email=${email}&upiId=${upi}&qr=${qr}&status=${status}&password=${password}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

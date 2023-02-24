@@ -69,7 +69,7 @@ export default function Dashboard() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/allUsers?admin_jwt=${jwt_token}`;
+    const url = `https://api.paybaba.co/admin/allUsers?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -96,7 +96,7 @@ export default function Dashboard() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/allTrans?admin_jwt=${jwt_token}`;
+    const url = `https://api.paybaba.co/admin/allTrans?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -124,7 +124,7 @@ export default function Dashboard() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/totalAmount?admin_jwt=${jwt_token}`;
+    const url = `https://api.paybaba.co/admin/totalAmount?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
@@ -152,7 +152,7 @@ export default function Dashboard() {
       "true"
     );
     myheaders.append("Content-Type", "application/json");
-    const url = `http://localhost:5000/admin/getAdmin?admin_jwt=${jwt_token}`;
+    const url = `https://api.paybaba.co/admin/getAdmin?admin_jwt=${jwt_token}`;
     var requestOptions = {
       method: "GET",
       headers: myheaders,
